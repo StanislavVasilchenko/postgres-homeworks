@@ -12,15 +12,15 @@ CREATE TABLE employees
 CREATE TABLE customers
 (
 	customer_id varchar(5) PRIMARY KEY,
-	company_name varchar(30) NOT NULL,
-	contact_name varchar(30) NOT NULL
+	company_name varchar(100) NOT NULL,
+	contact_name varchar(100) NOT NULL
 );
 
 CREATE TABLE orders
 (
 	order_id int PRIMARY KEY,
-	customer_id varchar(5) UNIQUE REFERENCES customers(customer_id) NOT NULL,
-	employe_id int UNIQUE REFERENCES employees(employe_id) NOT NULL,
+	customer_id varchar(5) REFERENCES customers(customer_id) NOT NULL,
+	employe_id int REFERENCES employees(employe_id) NOT NULL,
 	order_date date NOT NULL,
 	ship_city varchar(30) NOT NULL
 );
