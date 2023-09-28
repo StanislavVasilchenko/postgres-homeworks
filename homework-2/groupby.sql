@@ -6,7 +6,11 @@ WHERE ship_city LIKE '%burg'
 GROUP BY DISTINCT ship_city, ship_country
 
 -- 2. из таблицы orders идентификатор заказа, идентификатор заказчика, вес и страну отгрузки. Заказ отгружен в страны, начинающиеся на 'P'. Результат отсортирован по весу (по убыванию). Вывести первые 10 записей.
-
+SELECT order_id, customer_id, freight, ship_country
+FROM orders
+WHERE ship_country LIKE 'P%'
+ORDER BY freight DESC
+LIMIT 10
 
 -- 3. фамилию, имя и телефон сотрудников, у которых в данных отсутствует регион (см таблицу employees)
 
