@@ -8,7 +8,8 @@ SELECT order_id, (shipped_date - order_date)
 FROM orders
 
 -- 3. все города без повторов, в которых зарегистрированы заказчики (customers)
-
+SELECT DISTINCT city
+FROM customers
 
 -- 4. количество заказов (таблица orders)
 
