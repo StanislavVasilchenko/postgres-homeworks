@@ -12,6 +12,7 @@ SELECT DISTINCT city
 FROM customers
 
 -- 4. количество заказов (таблица orders)
-
+SELECT COUNT(*)
+FROM orders
 
 -- 5. количество стран, в которые отгружался товар (таблица orders, колонка ship_country)
