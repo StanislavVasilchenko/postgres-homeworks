@@ -27,3 +27,4 @@ INSERT INTO student(first_name, last_name, birth_date, phone) VALUES ('Petr', 'P
 INSERT INTO student(first_name, last_name, birth_date, phone) VALUES('Irina', 'Kokh', '1995-11-01', '+79355688752');
 
 -- 7. Удалить все данные из таблицы со сбросом идентификатор в исходное состояние
+TRUNCATE TABLE student RESTART IDENTITY
