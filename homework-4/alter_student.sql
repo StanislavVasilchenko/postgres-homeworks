@@ -8,8 +8,9 @@ CREATE TABLE student
 	birthday date,
 	phone varchar
 )
--- 2. Добавить в таблицу student колонку middle_name varchar
 
+-- 2. Добавить в таблицу student колонку middle_name varchar
+ALTER TABLE student ADD COLUMN middle_name varchar
 
 -- 3. Удалить колонку middle_name
 
