@@ -31,11 +31,11 @@ def main():
                 insert_suppliers_data(cur, suppliers)
                 print("Данные в suppliers успешно добавлены")
 
-                # add_foreign_keys(cur, json_file)
-                # print(f"FOREIGN KEY успешно добавлены")
+                add_foreign_keys(cur, json_file)
+                print(f"FOREIGN KEY успешно добавлены")
 
-    # except(Exception, psycopg2.DatabaseError) as error:
-    #     print(error)
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
     finally:
         if conn is not None:
             conn.close()
@@ -97,7 +97,6 @@ def get_suppliers_data(json_file: str) -> list[dict]:
             "fax": data["fax"] if data["fax"] else None,
             "homepage": data["homepage"] if data["homepage"] else None
         }
-        print(sup_dict["region"])
         new_data_suppliers.append(sup_dict)
     return new_data_suppliers
 
@@ -115,9 +114,32 @@ def insert_suppliers_data(cur, suppliers: list[dict]) -> None:
                                             phone, fax, homepage)
         VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", values_in_dump)
 
+
 def add_foreign_keys(cur, json_file) -> None:
     """Добавляет foreign key со ссылкой на supplier_id в таблицу products."""
-    pass
+    cur.execute("""ALTER TABLE products ADD COLUMN supplier_id int REFERENCES
+                    suppliers(supplier_id)""")
+
+    cur.execute("""SELECT product_name FROM products""")
+    with open(json_file, "r", encoding="utf-8") as file:
+        suppliers_data = json.load(file)
+
+    for product in cur.fetchall():
+        suppliers_name = get_supplier_by_product(suppliers_data, product[0])
+
+        cur.execute("""SELECT supplier_id FROM suppliers
+                    WHERE company_name=%s""", (suppliers_name,))
+
+        supplier_id = cur.fetchone()
+        update_query = "UPDATE products SET supplier_id=%s WHERE product_name=%s;"
+        values = (supplier_id[0], product[0])
+        cur.execute(update_query, values)
+
+
+def get_supplier_by_product(suppliers_data: list[dict], product: str) -> str:
+    for i in suppliers_data:
+        if product in i["products"]:
+            return i["company_name"]
 
 
 if __name__ == '__main__':
